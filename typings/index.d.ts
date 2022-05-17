@@ -42,6 +42,7 @@ interface OtpInputProps {
   separator?: Object;
   shouldAutoFocus?: boolean;
   value?: string;
+  InputComponent?: React.ReactNode;
   'data-testid'?: string;
   'data-cy'?: string;
 }
