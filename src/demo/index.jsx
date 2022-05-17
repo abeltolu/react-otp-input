@@ -182,6 +182,7 @@ class Demo extends Component {
                   shouldAutoFocus
                   value={otp}
                   placeholder={placeholder}
+                  //InputComponent={<input style={{ height: 100, width: 400 }} />}
                 />
               </div>
               <div className="btn-row">

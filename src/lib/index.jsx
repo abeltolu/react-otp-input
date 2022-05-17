@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component, PureComponent, cloneElement } from 'react';
 
 // keyCode constants
 const BACKSPACE = 8;
@@ -76,12 +76,47 @@ class SingleOtpInput extends PureComponent {
       value,
       className,
       isInputSecure,
+      InputComponent,
       ...rest
     } = this.props;
 
+    const inputProps = {
+      'aria-label': `${index === 0 ? 'Please enter verification code. ' : ''}${isInputNum ? 'Digit' : 'Character'} ${
+        index + 1
+      }`,
+      autoComplete: 'off',
+      style: Object.assign(
+        { width: '1em', textAlign: 'center' },
+        isStyleObject(inputStyle) && inputStyle,
+        focus && isStyleObject(focusStyle) && focusStyle,
+        isDisabled && isStyleObject(disabledStyle) && disabledStyle,
+        hasErrored && isStyleObject(errorStyle) && errorStyle
+      ),
+      placeholder: placeholder,
+      className: this.getClasses(
+        inputStyle,
+        focus && focusStyle,
+        isDisabled && disabledStyle,
+        hasErrored && errorStyle
+      ),
+      type: this.getType(),
+      maxLength: '1',
+      ref: this.input,
+      disabled: isDisabled,
+      value: value ? value : '',
+      ...rest,
+    };
     return (
       <div className={className} style={{ display: 'flex', alignItems: 'center' }}>
-        <input
+        {InputComponent ? (
+          cloneElement(InputComponent, {
+            ...inputProps,
+            ...(InputComponent?.props ?? {}),
+          })
+        ) : (
+          <input {...inputProps} />
+        )}
+        {/* <input
           aria-label={`${index === 0 ? 'Please enter verification code. ' : ''}${isInputNum ? 'Digit' : 'Character'} ${
             index + 1
           }`}
@@ -106,7 +141,7 @@ class SingleOtpInput extends PureComponent {
           disabled={isDisabled}
           value={value ? value : ''}
           {...rest}
-        />
+        /> */}
         {!isLastChild && separator}
       </div>
     );
@@ -282,6 +317,7 @@ class OtpInput extends Component {
       isInputNum,
       isInputSecure,
       className,
+      InputComponent = null,
     } = this.props;
 
     const inputs = [];
@@ -321,6 +357,7 @@ class OtpInput extends Component {
           className={className}
           data-cy={dataCy && `${dataCy}-${i}`}
           data-testid={dataTestId && `${dataTestId}-${i}`}
+          InputComponent={InputComponent}
         />
       );
     }
