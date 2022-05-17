@@ -33,6 +33,7 @@ interface OtpInputProps {
   focusStyle?: Object;
   hasErrored?: boolean;
   inputStyle?: Object;
+  inputWrapperStyle?: Object;
   isDisabled?: boolean;
   isInputNum?: boolean;
   isInputSecure?: boolean;

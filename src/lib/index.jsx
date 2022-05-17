@@ -77,6 +77,7 @@ class SingleOtpInput extends PureComponent {
       className,
       isInputSecure,
       InputComponent,
+      inputWrapperStyle,
       ...rest
     } = this.props;
 
@@ -107,7 +108,7 @@ class SingleOtpInput extends PureComponent {
       ...rest,
     };
     return (
-      <div className={className} style={{ display: 'flex', alignItems: 'center' }}>
+      <div className={className} style={{ display: 'flex', alignItems: 'center', ...(inputWrapperStyle ?? {}) }}>
         {InputComponent ? (
           cloneElement(InputComponent, {
             ...inputProps,
@@ -318,6 +319,7 @@ class OtpInput extends Component {
       isInputSecure,
       className,
       InputComponent = null,
+      inputWrapperStyle,
     } = this.props;
 
     const inputs = [];
@@ -358,6 +360,7 @@ class OtpInput extends Component {
           data-cy={dataCy && `${dataCy}-${i}`}
           data-testid={dataTestId && `${dataTestId}-${i}`}
           InputComponent={InputComponent}
+          inputWrapperStyle={inputWrapperStyle}
         />
       );
     }
